@@ -45,10 +45,10 @@ public class Category implements Serializable {
     }
 
     public List<Quadbike> getQuadbike() {
-        return quadbike;
+        return quadbikes;
     }
 
     public void setQuadbike(List<Quadbike> quadbike) {
-        this.quadbike = quadbike;
+        this.quadbikes = quadbike;
     }
 }
