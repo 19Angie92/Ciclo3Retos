@@ -1,5 +1,6 @@
 package com.ga.retos.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
@@ -19,10 +20,10 @@ public class Client implements Serializable {
     private Integer age;
 
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "client")
-    @JsonIncludeProperties("client")
+    @JsonIgnoreProperties("client")
     private List<Message> messages;
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "client")
-    @JsonIncludeProperties("client")
+    @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 
 

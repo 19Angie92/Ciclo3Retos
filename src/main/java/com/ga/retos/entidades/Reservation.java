@@ -28,6 +28,7 @@ public class    Reservation implements Serializable {
 
     @OneToOne
     @JsonIgnoreProperties("reservation")
+
     private Score score;
 
     public Integer getIdReservation() {
