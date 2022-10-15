@@ -3,16 +3,17 @@
 function leerClientes(){
 
     $.ajax({
-        url : 'https://localhost:8080/api/Client/all',
+        url : 'http://129.148.55.102:8080/api/Client/all',
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
 
         success : function(clientes) {
-            let cs=clientes.items;
+            let cs=clientes;
             $("#listaClientes").empty();
             for (i=0;i<cs.length;i++){
-                $("#listaClientes").append(cs[i].id+" <b>"+cs[i].name+"</b> "+cs[i].email+" "+cs[i].age);
-                $("#listaClientes").append("<button onclick='borrarCliente("+cs[i].id+ ")'>Borrar</button><br>");
+                $("#listaClientes").append(cs[i].idClient+" <b>"+cs[i].email+"</b> "+cs[i].password+" "+cs[i].name+" "+cs[i].age);
+                $("#listaClientes").append("<button onclick='borrarCliente("+cs[i].idClient+ ")'>Borrar</button><br>");
             }
 
         },
@@ -27,14 +28,16 @@ function leerClientes(){
 
 function guardarCliente(){
     let idCliente=$("#idCliente").val();
-    let nombre=$("#nombreCliente").val();
     let mailCliente=$("#mailCliente").val();
+    let contraseña=$("#contraseñaCliente")
+    let nombre=$("#nombreCliente").val();
     let edad=$("#edadCliente").val();
 
     let data={
-        id:idCliente,
-        name:nombre,
+        idClient:idCliente,
         email:mailCliente,
+        password:contraseñaCliente,
+        name:nombre,
         age:edad
     };
 
@@ -44,17 +47,19 @@ function guardarCliente(){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Client/save',
+        url : 'http://129.148.55.102:8080/api/Client/save',
         type : 'POST',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
         success : function(clientes) {
-            $("#idCliente").val(" ");
-            $("#nombreCliente").val(" ");
-            $("#mailCliente").val(" ");
-            $("#edadCliente").val(" ");
+            $("#idCliente").val();
+            $("#mailCliente").val();
+            $("#contraseñaCliente")
+            $("#nombreCliente").val();
+            $("#edadCliente").val();
         },
         //error : function(xhr, status) {
         //alert('ha sucedido un problema');
@@ -68,14 +73,17 @@ function guardarCliente(){
 
 function editarCliente(){
     let idCliente=$("#idCliente").val();
-    let nombre=$("#nombreCliente").val();
     let mailCliente=$("#mailCliente").val();
+    let contraseña=$("#contraseñaCliente")
+    let nombre=$("#nombreCliente").val();
     let edad=$("#edadCliente").val();
 
+
     let data={
-        id:idCliente,
-        name:nombre,
+        idClient:idCliente,
         email:mailCliente,
+        password:contraseñaCliente,
+        name:nombre,
         age:edad
     };
 
@@ -85,17 +93,19 @@ function editarCliente(){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Client/update',
+        url : 'http://129.148.55.102:8080/api/Client/update',
         type : 'PUT',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
         success : function(clientes) {
-            $("#idCliente").val(" ");
-            $("#nombreCliente").val(" ");
-            $("#mailCliente").val(" ");
-            $("#edadCliente").val(" ");
+            $("#idCliente").val();
+            $("#mailCliente").val();
+            $("#contraseñaCliente")
+            $("#nombreCliente").val();
+            $("#edadCliente").val();
         },
         error : function(xhr, status) {
             alert('ha sucedido un problema');
@@ -109,27 +119,19 @@ function editarCliente(){
 
 function borrarCliente(idCliente){
 
-    let data={
-        id:idCliente
-    };
-
-
-    let dataToSend=JSON.stringify(data);
-    console.log(dataToSend);
-
-
     $.ajax({
-        url : 'https://localhost:8080/api/Client/{id}',
+        url : 'http://129.148.55.102:8080/api/Client'+idcliente,
         type : 'DELETE',
         dataType : 'JSON',
-        data: dataToSend,
+        CrossDomain: true,
         contentType: 'application/json',
 
         success : function(clientes) {
-            $("#idCliente").val(" ");
-            $("#nombreCliente").val(" ");
-            $("#mailCliente").val(" ");
-            $("#edadCliente").val(" ");
+            $("#idCliente").val();
+            $("#mailCliente").val();
+            $("#contraseñaCliente")
+            $("#nombreCliente").val();
+            $("#edadCliente").val();
         },
         error : function(xhr, status) {
             alert('ha sucedido un problema');
@@ -146,17 +148,18 @@ function buscarClientesId(){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Client/{id}'+idC,
+        url : 'http://129.148.55.102:8080/api/Client'+idcliente,
         type : 'GET',
         dataType : 'JSON',
         contentType : "application/json",
 
 
         success : function(idcliente) {
-            $("#idCliente").val(" ");
-            $("#nombreCliente").val(" ");
-            $("#mailCliente").val(" ");
-            $("#edadCliente").val(" ");
+            $("#idCliente").val();
+            $("#mailCliente").val();
+            $("#contraseñaCliente")
+            $("#nombreCliente").val();
+            $("#edadCliente").val();
             //console.log(idclientes.items[0]);
 
 
@@ -164,8 +167,8 @@ function buscarClientesId(){
 
 
 
-            $("#listaClientes").append(idcliente.items[0].id+" <b>"+idcliente.items[0].name+"</b> "+idcliente.items[0].email+" "+idcliente.items[0].age);
-            $("#listaClientes").append("<button onclick='borrarCliente("+idcliente.items[0].id+ ")'>Borrar</button><br>");
+            $("#listaClientes").append(idcliente.items[0].idClient+" <b>"+idcliente.items[0].email+"</b> "+idcliente.items[0].password+" "+idcliente.items[0].name+" "+idcliente.items[0].age);
+            $("#listaClientes").append("<button onclick='borrarCliente("+idcliente.items[0].idClient+ ")'>Borrar</button><br>");
 
 
         },
@@ -186,16 +189,17 @@ function buscarClientesId(){
 function leerMensajes(){
 
     $.ajax({
-        url : 'https://localhost:8080/api/Message/all',
+        url : 'http://129.148.55.102:8080/api/Message/all',
         type : 'GET',
+        CrossDomain: true,
         dataType : 'JSON',
 
         success : function(mensajes) {
-            let ms=mensajes.items;
+            let ms=mensajes;
             $("#listaMensajes").empty();
             for (i=0;i<ms.length;i++){
-                $("#listaMensajes").append(ms[i].id+" <b>"+ms[i].messagetext);
-                $("#listaMensajes").append("<button onclick='borrarMensaje("+ms[i].id+ ")'>Borrar</button><br>");
+                $("#listaMensajes").append(ms[i].idMessage+" <b>"+ms[i].messageText);
+                $("#listaMensajes").append("<button onclick='borrarMensaje("+ms[i].idMessage+ ")'>Borrar</button><br>");
             }
 
         },
@@ -213,8 +217,8 @@ function guardarMensajes(){
     let texto=$("#TextoMensaje").val();
 
     let data_m={
-        id:idMensaje,
-        messagetext:texto,
+        idMessage:idMensaje,
+        messageText:texto,
     };
 
 
@@ -223,9 +227,10 @@ function guardarMensajes(){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Message/save',
+        url : 'http://129.148.55.102:8080/api/Message/save',
         type : 'POST',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -249,8 +254,8 @@ function editarMensajes(){
     let texto=$("#TextoMensaje").val();
 
     let data_m={
-        id:idMensaje,
-        messagetext:texto,
+        idMessage:idMensaje,
+        messageText:texto,
     };
 
 
@@ -259,9 +264,10 @@ function editarMensajes(){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Message/update',
+        url : 'http://129.148.55.102:8080/api/Message/update',
         type : 'PUT',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -283,7 +289,7 @@ function editarMensajes(){
 function borrarMensaje(idMensaje){
 
     let data_m={
-        id:idMensaje
+        idMessage:idMensaje
     };
 
 
@@ -292,9 +298,10 @@ function borrarMensaje(idMensaje){
 
 
     $.ajax({
-        url : 'https://localhost:8080/api/Message/{id}',
+        url : 'http://129.148.55.102:8080/api/Message/'+idMensaje,
         type : 'DELETE',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -317,9 +324,10 @@ function buscarMensajesId(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/message/message/'+idM,
+        url : 'http://129.148.55.102:8080/api/Message/'+idMensaje,
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
         contentType : "application/json",
 
 
@@ -334,8 +342,8 @@ function buscarMensajesId(){
 
 
 
-            $("#listaMensajes").append(idmensaje.items[0].id+" <b>"+idmensaje.items[0].messagetext+"</b>");
-            $("#listaMensajes").append("<button onclick='borrarMensaje("+idmensaje.items[0].id+ ")'>Borrar</button><br>");
+            $("#listaMensajes").append(idmensaje.items[0].idMessage+" <b>"+idmensaje.items[0].messageText+"</b>");
+            $("#listaMensajes").append("<button onclick='borrarMensaje("+idmensaje.items[0].idMessage+ ")'>Borrar</button><br>");
 
 
         },
@@ -353,15 +361,16 @@ function buscarMensajesId(){
 function leerCuatrimotos(){
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Quadbike/all',
         type : 'GET',
+        CrossDomain: true,
         dataType : 'JSON',
 
         success : function(cuatrimotos) {
-            let cts=cuatrimotos.items;
+            let cts=cuatrimotos;
             $("#listaCuatrimoto").empty();
             for (i=0;i<cts.length;i++){
-                $("#listaCuatrimoto").append(cts[i].id+" <b>"+cts[i].brand+"</b> "+cts[i].model+" "+cts[i].category_id+" "+cts[i].name);
+                $("#listaCuatrimoto").append(cts[i].id+" <b>"+cts[i].name+"</b> "+cts[i].brand+" "+cts[i].year+" "+cts[i].description);
                 $("#listaCuatrimoto").append("<button onclick='borrarCuatrimoto("+cts[i].id+ ")'>Borrar</button><br>");
             }
 
@@ -377,17 +386,19 @@ function leerCuatrimotos(){
 
 function guardarCuatrimoto(){
     let idCuatrimoto=$("#idCuatrimoto").val();
+    let nombre=$("#nombreCuatrimoto").val();
     let marca=$("#marcaCuatrimoto").val();
     let modelo=$("#modeloCuatrimoto").val();
-    let categoria=$("#categoriaCuatrimoto").val();
-    let nombre=$("#nombreCuatrimoto").val();
+    let categoria=$("#descripcionCuatrimoto").val();
+
 
     let data_c={
         id:idCuatrimoto,
+        name:nombre,
         brand:marca,
-        model:modelo,
-        category_id:categoria,
-        name:nombre
+        year:modelo,
+        description:categoria,
+
 
     };
 
@@ -397,18 +408,19 @@ function guardarCuatrimoto(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Quadbike/save',
         type : 'POST',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
         success : function(cuatrimotos) {
             $("#idCuatrimoto").val(" ");
+            $("#nombreCuatrimoto").val(" ");
             $("#marcaCuatrimoto").val(" ");
             $("#modeloCuatrimoto").val(" ");
-            $("#categoriaCuatrimoto").val(" ");
-            $("#nombreCuatrimoto").val(" ");
+            $("#descripcionCuatrimoto").val(" ");
         },
         //error : function(xhr, status) {
         //alert('ha sucedido un problema');
@@ -422,17 +434,17 @@ function guardarCuatrimoto(){
 
 function editarCuatrimoto(){
     let idCuatrimoto=$("#idCuatrimoto").val();
+    let nombre=$("#nombreCuatrimoto").val();
     let marca=$("#marcaCuatrimoto").val();
     let modelo=$("#modeloCuatrimoto").val();
-    let categoria=$("#categoriaCuatrimoto").val();
-    let nombre=$("#nombreCuatrimoto").val();
+    let categoria=$("#descripcionCuatrimoto").val();
 
     let data_c={
         id:idCuatrimoto,
+        name:nombre,
         brand:marca,
-        model:modelo,
-        category_id:categoria,
-        name:nombre
+        year:modelo,
+        description:categoria,
     };
 
 
@@ -441,18 +453,19 @@ function editarCuatrimoto(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Quadbike/update',
         type : 'PUT',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
         success : function(cuatrimotos) {
             $("#idCuatrimoto").val(" ");
+            $("#nombreCuatrimoto").val(" ");
             $("#marcaCuatrimoto").val(" ");
             $("#modeloCuatrimoto").val(" ");
-            $("#categoriaCuatrimoto").val(" ");
-            $("#nombreCuatrimoto").val(" ");
+            $("#descripcionCuatrimoto").val(" ");
         },
 
         complete: function(){
@@ -473,18 +486,19 @@ function borrarCuatrimoto(idCuatrimoto){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Quadbike/'+idCuatrimoto,
         type : 'DELETE',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
         success : function(cuatrimotos) {
             $("#idCuatrimoto").val(" ");
+            $("#nombreCuatrimoto").val(" ");
             $("#marcaCuatrimoto").val(" ");
             $("#modeloCuatrimoto").val(" ");
-            $("#categoriaCuatrimoto").val(" ");
-            $("#nombreCuatrimoto").val(" ");
+            $("#descripcionCuatrimoto").val(" ");
         },
         error : function(xhr, status) {
             alert('ha sucedido un problema');
@@ -501,18 +515,19 @@ function buscarCuatrimotoId(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike/'+idCM,
+        url : 'http://129.148.55.102:8080/api/Quadbike/'+idCuatrimoto,
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
         contentType : "application/json",
 
 
         success : function(idcuatrimoto) {
             $("#idCuatrimoto").val(" ");
+            $("#nombreCuatrimoto").val(" ");
             $("#marcaCuatrimoto").val(" ");
             $("#modeloCuatrimoto").val(" ");
-            $("#categoriaCuatrimoto").val(" ");
-            $("#nombreCuatrimoto").val(" ");
+            $("#descripcionCuatrimoto").val(" ");
             //console.log(idclientes.items[0]);
 
 
@@ -520,7 +535,7 @@ function buscarCuatrimotoId(){
 
 
 
-            $("#listaCuatrimoto").append(idcuatrimoto.items[0].id+" <b>"+idcuatrimoto.items[0].brand+"</b> "+idcuatrimoto.items[0].model+" "+idcuatrimoto.items[0].category_id+" "+idcuatrimoto.items[0].name);
+            $("#listaCuatrimoto").append(idcuatrimoto.items[0].id+" <b>"+idcuatrimoto.items[0].name+"</b> "+idcuatrimoto.items[0].brand+" "+idcuatrimoto.items[0].year+" "+idcuatrimoto.items[0].description);
             $("#listaCuatrimoto").append("<button onclick='borrarCuatrimoto("+idcuatrimoto.items[0].id+ ")'>Borrar</button><br>");
 
 
@@ -534,12 +549,13 @@ function buscarCuatrimotoId(){
 function leerCategorias(){
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Category/all',
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
 
         success : function(categorias) {
-            let cg=categorias.items;
+            let cg=categorias;
             $("#listaCategoria").empty();
             for (i=0;i<cg.length;i++){
                 $("#listaCategoria").append(cg[i].id+" <b>"+cg[i].name+"</b> "+cg[i].descripcion);
@@ -573,9 +589,10 @@ function guardarCategoria(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Category/save',
         type : 'POST',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -611,9 +628,10 @@ function editarCategoria(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Category/update',
         type : 'PUT',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -641,9 +659,10 @@ function borrarCategoria(idCategoria){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Category/'+idCategoria,
         type : 'DELETE',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -667,9 +686,10 @@ function buscarCategoriaId(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike/'+idCG,
+        url : 'http://129.148.55.102:8080/api/Category/'+idCategoria,
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
         contentType : "application/json",
 
 
@@ -698,12 +718,13 @@ function buscarCategoriaId(){
 function leerReservaciones(){
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Reservation/all',
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
 
         success : function(reservaciones) {
-            let r=reservaciones.items;
+            let r=reservaciones;
             $("#listaReservaciones").empty();
             for (i=0;i<r.length;i++){
                 $("#listaReservaciones").append(r[i].idReservation+" <b>"+r[i].startDate+"</b> "+r[i].devolutionDate+" "+r[i].status);
@@ -739,9 +760,10 @@ function guardarReservacion(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Reservation/save',
         type : 'POST',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -780,9 +802,10 @@ function editarReservacion(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Reservation/update',
         type : 'PUT',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -811,9 +834,10 @@ function borrarReservacion(idReservacion){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike',
+        url : 'http://129.148.55.102:8080/api/Reservation/'+idReservacion,
         type : 'DELETE',
         dataType : 'JSON',
+        CrossDomain: true,
         data: dataToSend,
         contentType: 'application/json',
 
@@ -839,9 +863,10 @@ function buscarReservacionId(){
 
 
     $.ajax({
-        url : 'https://gaf8e23058f5fb2-fyfunmk6a60bqoay.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/quadbike/quadbike/'+idR,
+        url : 'http://129.148.55.102:8080/api/Reservation/'+idReservacion,
         type : 'GET',
         dataType : 'JSON',
+        CrossDomain: true,
         contentType : "application/json",
 
 
@@ -858,10 +883,12 @@ function buscarReservacionId(){
 
 
             $("#listaReservaciones").append(idReservacion.items[0].idReservation+" <b>"+idReservacion.items[0].startDate+"</b> "+idReservacion.items[0].devolutionDate+" "+idReservacion.items[0].status);
-            $("#listaReservaciones").append("<button onclick='borrarReservacion("+idReservacion.items[0].id+ ")'>Borrar</button><br>");
+            $("#listaReservaciones").append("<button onclick='borrarReservacion("+idReservacion.items[0].idReservation+ ")'>Borrar</button><br>");
 
 
         }
     });
+
+
 
 }

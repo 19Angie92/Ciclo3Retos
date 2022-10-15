@@ -17,14 +17,14 @@ public class    Reservation implements Serializable {
     private Date devolutionDate;
     private String status = "created";
     @ManyToOne
-    @JoinColumn(name = "clientId")
-    @JsonIgnoreProperties({"reservations","messages"})
-    private Client client;
-
-    @ManyToOne
     @JoinColumn(name = "quadbikeId")
     @JsonIgnoreProperties("reservations")
     private Quadbike quadbike;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    @JsonIgnoreProperties({"reservations","messages"})
+    private Client client;
 
     @OneToOne
     @JsonIgnoreProperties("reservation")
