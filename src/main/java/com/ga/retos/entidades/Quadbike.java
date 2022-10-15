@@ -24,11 +24,11 @@ public class Quadbike implements Serializable {
     private Category category;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "quadbike")
-    @JsonIgnoreProperties({"cloud", "message"})
+    @JsonIgnoreProperties({"quadbike", "message"})
     private List<Reservation> reservations;
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "quadbike")
-    @JsonIgnoreProperties({"cloud", "client"})
+    @JsonIgnoreProperties({"quadbike", "client"})
     private List<Message> messages;
 
     public Integer getId() {
